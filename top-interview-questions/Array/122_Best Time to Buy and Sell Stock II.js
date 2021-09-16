@@ -30,35 +30,53 @@
 // 用一個 index 來儲存目前最高的利潤是跟哪一天相比
 // 完成一次買賣,把利潤加入 total , 並且把天數移到賣出的天數 (i = max_i) , i++ =>隔天的價格
 
-var maxProfit = function(prices) {
-    
-    let buy_p;
-    let total=0;
-    for(let i=0;i<prices.length;i++){
-        buy_p=prices[i];
-        
-        let max = 0;
-        let max_i=i;
 
-        for(let j=i;j<prices.length;j++){
-            if(prices[i+1]!=null){
-                if(prices[i]>=prices[i+1])
-                    continue;
-            }
-            if(prices[j]-buy_p >0 && prices[j]-buy_p >=max){
-                max = prices[j]-buy_p;
-                // console.log(prices[j],buy_p);
-                max_i = j;
-                // console.log(max,j);
-            }
-            else if(max > 0 && prices[j]-buy_p < max){
-                break;
-            }
+// var maxProfit = function(prices) {
+    
+//     let buy_p;
+//     let total=0;
+//     for(let i=0;i<prices.length;i++){
+//         buy_p=prices[i];
+        
+//         let max = 0;
+//         let max_i=i;
+
+//         for(let j=i;j<prices.length;j++){
+//             if(prices[i+1]!=null){
+//                 if(prices[i]>=prices[i+1])
+//                     continue;
+//             }
+//             if(prices[j]-buy_p >0 && prices[j]-buy_p >=max){
+//                 max = prices[j]-buy_p;
+//                 // console.log(prices[j],buy_p);
+//                 max_i = j;
+//                 // console.log(max,j);
+//             }
+//             else if(max > 0 && prices[j]-buy_p < max){
+//                 break;
+//             }
+//         }
+        
+//             i = max_i;
+        
+//         total += max;
+//     }
+//     return total;
+// };
+
+// 2021/9/16 17:57 二解 AC
+// 51.62%
+// 因為每當比前一天高的時候都可以賣出(前一天買入)
+// 只要計算所有 i > i-1 的差值再加總即可 
+
+var maxProfit = function(prices){
+
+    let profit = 0;
+    
+    for(let i = 1 ; i<prices.length ;i++ ){
+        if(prices[i]>=prices[i-1]){
+            profit += ( prices[i]-prices[i-1] );
         }
-        
-            i = max_i;
-        
-        total += max;
     }
-    return total;
-};
+    return profit;
+}
