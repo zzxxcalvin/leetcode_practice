@@ -35,9 +35,36 @@ var intersect = function(nums1, nums2) {
 
 };
 
-nums1 = [4,9,5];
+nums1 = [4,9,5,9];
 nums2 = [9,4,9,8,4];
-let set1 = new Set(nums2);
-console.log(set1);
 
-intersect(nums1,nums2);
+
+// 2021/9/17 17:23 AC 2th
+// 17.37%
+// 用 map 存 array1的 (數字:出現次數)
+// 然後再跟 array2 一一比對 , 每次發現就 次數-1 , 並放入 ans
+
+
+var intersect_ = function(nums1,nums2) {
+    let map1 = new Map();
+    let ans = [];
+    for(let i =0;i<nums1.length;i++){
+        if(map1.has(nums1[i])){
+            map1.set(nums1[i], map1.get(nums1[i])+1 );
+        }
+        else{
+            map1.set(nums1[i],1);
+        }
+    }
+
+    for(let i=0;i<nums2.length;i++){
+        if(map1.has(nums2[i]) && map1.get(nums2[i])>0 ){
+            ans.push(nums2[i]);
+            map1.set(nums2[i], map1.get(nums2[i])-1 );
+        }
+    }
+    console.log(ans);
+    return ans;
+}
+
+intersect_(nums1,nums2);
